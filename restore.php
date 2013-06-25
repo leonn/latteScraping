@@ -52,7 +52,7 @@ function lattesSearch(str){
           }
       }
 
-      xmlhttp2.open("POST","restore.php",true);
+      xmlhttp2.open("POST","lattesData.php",true);
       xmlhttp2.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
       data=xmlhttp.responseText.search("abreDetalhe");
       data='data='+xmlhttp.responseText.substr([data+13],10);
