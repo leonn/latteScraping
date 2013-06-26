@@ -1,14 +1,3 @@
-<?php
-
-// need to run  chrome --disable-web-security
-require_once('lattesUtil.php');
-$link_lattes="http://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=";
-
-error_reporting(E_ALL | E_ERROR );
-ini_set('default_charset','UTF-8');
-
-if(!isset($_POST['data'])){
-?>
 <script>
 var IDs=[];
 var lattesData=[];
@@ -102,7 +91,7 @@ function lattesSearchData(i){
       lattesData[i]= xmlhttp.responseText;
   }
 
-  xmlhttp.open("POST","restore.php",true);
+  xmlhttp.open("POST","lattesData.php",true);
   xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
   data=xmlhttp.responseText.search("abreDetalhe");
   data='data='+IDs[i];
@@ -140,14 +129,3 @@ function lattesSearchAll(sstr){
  <tbody>    
  </tbody>
 </table>
-<?php
- }else{
-  $link_lattes=$link_lattes.$_POST['data'];
-  $html=lattesUtil::carregaLattes($link_lattes);
-  $txtInf = lattesUtil::textoInformadoAutor($html);
-  $nivel=explode('- ', $txtInf);
-  $nivel=$nivel[1];
-
-  echo $link_lattes.','.$txtInf.','.$nivel;
- }
-?>
