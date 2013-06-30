@@ -25,8 +25,8 @@ function lattesSearch(str){
              row = document.createElement("TR");
              cell = document.createElement("TD");
              cell.align='center';
-             str=xmlhttp2.responseText.replace("&iacute;","Ã­");
-             str=str.replace("&iacute;","Ã­");
+             str=xmlhttp2.responseText.replace("&iacute;","í");
+             str=str.replace("&iacute;","í");
              responseData=str.split(",");
              text=responseData[0]; 
              cell.innerHTML="<a href='"+text+"'>"+text+"</a>";
@@ -78,23 +78,48 @@ function lattesSearchID(str,i){
   xmlhttp.send(data);
 }
 
-function lattesSearchData(i){
+function lattesSearchData(){
   if (window.XMLHttpRequest){
     xmlhttp=new XMLHttpRequest();
   }
   else {// code for IE6,5
     xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
   }
-
+ 
   xmlhttp.onreadystatechange=function(){
-    if (xmlhttp.readyState==4 && xmlhttp.status==200)     
-      lattesData[i]= xmlhttp.responseText;
+    if (xmlhttp.readyState==4 && xmlhttp.status==200){   
+     // lattesData= xmlhttp.responseText;
+       str=xmlhttp.responseText;
+       str=str.split("#");
+       for (var i = 0;str.length-1; i++) {
+        var respLine=str[i];
+        // if (respLine!='undefined'){
+           tabBody=document.getElementsByTagName("tbody").item(0);
+           row = document.createElement("TR");
+           cell = document.createElement("TD");
+           cell.align='center';
+          // respLine=respLine.replace("&iacute;","í");
+           //respLine=respLine.replace("&iacute;","í");
+           responseData=respLine.split(",");
+           text=responseData[0]; 
+           cell.innerHTML="<a href='"+text+"'>"+text+"</a>";
+           row.appendChild(cell);
+           cell = document.createElement("TD");
+           cell.innerHTML=responseData[1];
+           row.appendChild(cell);
+           cell = document.createElement("TD");
+           cell.innerHTML=responseData[2];
+           row.appendChild(cell);
+           tabBody.appendChild(row);
+          //}
+       }
+    }
   }
 
   xmlhttp.open("POST","lattesData.php",true);
   xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
   data=xmlhttp.responseText.search("abreDetalhe");
-  data='data='+IDs[i];
+  data='idData='+IDs;
   xmlhttp.send(data);
 }
 
@@ -105,9 +130,7 @@ function lattesSearchAll(sstr){
     lattesSearchID(sstr[i],i);
   }
   setTimeout(function(){
-      for (var i = 0; i < sstr.length ; i++) {
-        lattesSearchData(i);
-      }
+    lattesSearchData();      
     },1000*sstr.length);
   }
   
